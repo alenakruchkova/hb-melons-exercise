@@ -1,23 +1,32 @@
 """This file should have our order classes in it."""
 
 import random
+from datetime import datetime
 
 class AbstractMelonOrder(object):
     """An abstract class for melon ordering."""
 
-    def __init__(self, species, qty, country_code=None):
+    def __init__(self, species, qty, country_code=None, day_of_week, time):
         """Initialize melon order attributes"""
 
         self.species = species
         self.qty = qty
         self.shipped = False
         self.passed_inspection = False
+        self.day_of_week = day_of_week
+        self.time = time
 
     def get_base_price(self):
-        """Generates a random int between 5-9. And assigns the value to base_price"""
+        """Generates a random int between 5-9. And assigns the value to price"""
 
         self.price = random.randint(5,9)
-        return self.price
+        
+        if day_of_week.isoweekday is in range(1, 5):
+            if time.daytime.hour is in range(8, 11):
+                self.price = self.price + 4
+                return self.price
+        else:        
+            return self.price
 
     def get_total(self):
         """Calculate price."""
@@ -38,15 +47,19 @@ class AbstractMelonOrder(object):
 class DomesticMelonOrder(AbstractMelonOrder):
     """A domestic (in the US) melon order."""
 
-    order_type = "domestic"
-    tax = 0.08
+    def __init__(self):
+        super(DomesticMelonOrder, self).__init__()
+        self.order_type = "domestic"
+        self.tax = 0.08
 
 
 class InternationalMelonOrder(AbstractMelonOrder):
     """An international (non-US) melon order."""
 
-    order_type = "international"
-    tax = 0.17   
+    def __init__(self):
+        super(InternationalMelonOrder, self).__init__()
+        self.order_type = "international"
+        self.tax = 0.17   
 
     def get_total(self):
         """Calculate price."""
