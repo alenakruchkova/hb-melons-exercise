@@ -9,6 +9,7 @@ class AbstractMelonOrder(object):
         self.species = species
         self.qty = qty
         self.shipped = False
+        self.passed_inspection = False
 
 
     def get_total(self ):
@@ -55,3 +56,15 @@ class InternationalMelonOrder(AbstractMelonOrder):
         """Return the country code."""
 
         return self.country_code
+
+class GovernmentMelonOrder(AbstractMelonOrder):
+    """A government melon order."""
+
+    order_type = "government"
+    tax = 0.0
+
+    def inspect_melons(self):
+        """Set passed_inspection to true."""
+
+        self.passed_inspection = True
+        
